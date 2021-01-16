@@ -1,0 +1,4 @@
+# ninja log v5
+2	262	632533129	build.ninja	1e28fe2503f980d1
+0	2775	632533132	CMakeFiles/main.dir/main.cpp.obj	4cc233a7e987861
+2777	4081	632533132	main.exe	36fd2a706db50601
