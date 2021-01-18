@@ -68,6 +68,39 @@ bool getRuleIDs() {
 	return true;
 }
 
+bool deleteRules(std::vector<std::string> ids2delete) {
+	if (ids2delete.empty())
+		return true;
+	std::string json_body = R"({ "delete": { "ids": [")";
+	json_body += ids2delete.back();
+	ids2delete.pop_back();
+	if (!ids2delete.empty()) {
+		for (std::vector<std::string>::const_iterator i = ids2delete.begin(); i != ids2delete.end(); ++i) {
+			json_body += R"(", ")";
+			json_body += *i;
+		}
+	}
+	json_body += R"("] } }")";
+
+	cpr::Response r = cpr::Post(cpr::Url{ "https://api.twitter.com/2/tweets/search/stream/rules" },
+		cpr::Payload{ {"dry_run", "false"} },
+		cpr::Header{ { "Content-Type", "application/json" },
+			{ "Authorization", "Bearer " + BEARER_TOKEN } },
+		cpr::Body{ json_body });
+
+	nlohmann::json item = nlohmann::json::parse(r.text);
+
+	if (r.status_code != 200) {
+		std::string error = "HTTP Error Code: " + std::to_string(r.status_code);
+		throw error;
+		return false;
+	}
+
+
+	std::cout << "Rules Deleted:" << r.text << std::endl;
+	return true;
+}
+
 int main()
 {
 	//try {
@@ -84,14 +117,21 @@ int main()
 	//	std::cout << std::endl;
 	//}
 
+	//try {
+	//	bool func_success = getRuleIDs();
+	//	if (func_success) {
+	//		std::cout << "Success! Rule IDs: ";
+	//		for (std::vector<std::string>::const_iterator i = RULE_IDS.begin(); i != RULE_IDS.end(); ++i)
+	//			std::cout << *i << ", ";
+	//		std::cout << std::endl;
+	//	}
+	//}
+	//catch (std::string error) {
+	//	std::cout << error << std::endl;
+	//}
+
 	try {
-		bool func_success = getRuleIDs();
-		if (func_success) {
-			std::cout << "Success! Rule IDs: ";
-			for (std::vector<std::string>::const_iterator i = RULE_IDS.begin(); i != RULE_IDS.end(); ++i)
-				std::cout << *i << ", ";
-			std::cout << std::endl;
-		}
+		bool func_success = deleteRules(RULE_IDS);
 	}
 	catch (std::string error) {
 		std::cout << error << std::endl;
@@ -113,8 +153,6 @@ int main()
 
 	//std::cout << "Bytes:" << r2.downloaded_bytes << std::endl;
 
-
-
 	//auto future_text = cpr::GetCallback([](cpr::Response r) {
 	//	return r.text;
 	//	}, cpr::Url{ "https://api.twitter.com/2/tweets/search/stream" },
@@ -125,18 +163,7 @@ int main()
 	//};
 	
 
-	//cpr::Response r4 = cpr::Post(cpr::Url{ "https://api.twitter.com/2/tweets/search/stream/rules" },
-	//cpr::Payload{ {"dry_run", "false"} },
-	//cpr::Header{ { "Content-Type", "application/json" },
-	//	{ "Authorization", "Bearer " + BEARER_TOKEN } },
-	//cpr::Body{ R"({
-	//	"delete": {
-	//		"ids": ["1346917846127882241"]
-	//		}
-	//	})"
-	//});
 
-	//std::cout << "Rules Deleted:" << r4.text << std::endl;
 
 	return 0;
 }
