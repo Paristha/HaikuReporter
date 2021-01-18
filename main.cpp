@@ -60,7 +60,7 @@ bool getRuleIDs() {
 		return false;
 	}
 
-	std::cout << "Success! Rule IDs: ";
+	std::cout << "Retrieved rule IDs: ";
 	std::vector<std::string> new_rule_ids;
 	for (const auto& rule : item["data"]) {
 		std::string rule_id = rule["id"].dump();
@@ -121,39 +121,15 @@ bool deleteRules(std::vector<std::string> ids2delete) {
 
 int main()
 {
-	try {
-		std::string rule = "#breakingnews lang:en -died -death -deaths -kill -killed -killing -killings -shooting -shootings -shot -stabbing -stabbed -fatalities -burned -crash -crashed -rape -raped -sexual -casualties -assault -assaulted -is:retweet";
-		std::string tag = "english, non-retweet breaking news without dangerous words";
-		makeRule(rule, tag);
-		//for (std::vector<std::string>::const_iterator i = RULE_IDS.begin(); i != RULE_IDS.end(); ++i)
-		//	std::cout << *i << ' ';
-	} catch (std::string error) {
-		std::cout << error << std::endl;
-		std::cout << "\nError ids: ";
-		for (std::vector<std::string>::const_iterator i = RULE_IDS.begin(); i != RULE_IDS.end(); ++i)
-			std::cout << *i << ", ";
-		std::cout << std::endl;
-	}
+	std::string rule = "#breakingnews lang:en -died -death -deaths -kill -killed -killing -killings -shooting -shootings -shot -stabbing -stabbed -fatalities -burned -crash -crashed -rape -raped -sexual -casualties -assault -assaulted -is:retweet";
+	std::string tag = "english, non-retweet breaking news without dangerous words";
+	if (!makeRule(rule, tag))
+		return 1;
+	if (!getRuleIDs())
+		return 1;
+	if (!deleteRules(RULE_IDS))
+		return 1;
 
-	try {
-		bool func_success = getRuleIDs();
-		if (func_success) {
-			std::cout << "Success! Rule IDs: ";
-			for (std::vector<std::string>::const_iterator i = RULE_IDS.begin(); i != RULE_IDS.end(); ++i)
-				std::cout << *i << ", ";
-			std::cout << std::endl;
-		}
-	}
-	catch (std::string error) {
-		std::cout << error << std::endl;
-	}
-
-	try {
-		bool func_success = deleteRules(RULE_IDS);
-	}
-	catch (std::string error) {
-		std::cout << error << std::endl;
-	}
 	//std::cout << "Rules Added:" << r1.text << std::endl;
 
 	//cpr::Response r2 = cpr::Get(cpr::Url{ "https://api.twitter.com/2/tweets/search/stream" },
@@ -179,9 +155,6 @@ int main()
 	//if (future_text.wait_for(std::chrono::seconds(1000)) == std::future_status::ready) {
 	//	std::cout << future_text.get() << std::endl;
 	//};
-	
-
-
 
 	return 0;
 }
