@@ -21,7 +21,16 @@ bool makeRule(std::string value_text, std::string tag_text = "")
 			{ "Authorization", "Bearer " + BEARER_TOKEN } },
 		cpr::Body{ json_body });
 
-	nlohmann::json item = nlohmann::json::parse(r.text);
+	nlohmann::json item;
+	try {
+		item = nlohmann::json::parse(r.text);
+	}
+	catch (nlohmann::json::exception exc) {
+		if (!r.error.message.empty())
+			std::cerr << r.error.message << std::endl;
+		std::cerr << exc.what() << std::endl;
+		return false;
+	}
 
 	if (item.contains("errors") || r.status_code != 201) {
 		std::string error = "";
@@ -50,10 +59,20 @@ bool makeRule(std::string value_text, std::string tag_text = "")
 }
 
 bool getRuleIDs() {
+
 	cpr::Response r = cpr::Get(cpr::Url{ "https://api.twitter.com/2/tweets/search/stream/rules" },
 		cpr::Header{ { "Authorization", "Bearer " + BEARER_TOKEN } });
 
-	nlohmann::json item = nlohmann::json::parse(r.text);
+	nlohmann::json item;
+	try {
+		item = nlohmann::json::parse(r.text);
+	}
+	catch (nlohmann::json::exception exc) {
+		if (!r.error.message.empty())
+			std::cerr << r.error.message << std::endl;
+		std::cerr << exc.what() << std::endl;
+		return false;
+	}
 
 	if (r.status_code != 200) {
 		std::cerr << "HTTP Error Code: " + std::to_string(r.status_code) << std::endl;
@@ -94,7 +113,16 @@ bool deleteRules(std::vector<std::string> ids2delete) {
 			{ "Authorization", "Bearer " + BEARER_TOKEN } },
 		cpr::Body{ json_body });
 
-	nlohmann::json item = nlohmann::json::parse(r.text);
+	nlohmann::json item;
+	try {
+		item = nlohmann::json::parse(r.text);
+	}
+	catch (nlohmann::json::exception exc) {
+		if (!r.error.message.empty())
+			std::cerr << r.error.message << std::endl;
+		std::cerr << exc.what() << std::endl;
+		return false;
+	}
 
 	int num_rules_deleted = 0;
 	try {

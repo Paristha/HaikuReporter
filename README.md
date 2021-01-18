@@ -32,7 +32,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/github_username/repo_name">
+  <a href="https://github.com/Paristha/HaikuReporter">
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
@@ -72,11 +72,9 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgements">Acknowledgements</a></li>
   </ol>
 </details>
 
@@ -94,10 +92,9 @@ Here's a blank template to get started:
 
 ### Built With
 
-* []()
-* []()
-* []()
-
+* [cpr](https://github.com/whoshuu/cpr)
+* [nlohmann/json](https://github.com/nlohmann/json)
+* -- [CMake target for nlohmann/json](https://github.com/ArthurSonzogni/nlohmann_json_cmake_fetchcontent)
 
 
 <!-- GETTING STARTED -->
@@ -119,9 +116,9 @@ This is an example of how to list things you need to use the software and how to
    ```sh
    git clone https://github.com/github_username/repo_name.git
    ```
-2. Install NPM packages
+2. CMake
    ```sh
-   npm install
+
    ```
 
 
@@ -129,16 +126,6 @@ This is an example of how to list things you need to use the software and how to
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-
-
-<!-- ROADMAP -->
-## Roadmap
-
-See the [open issues](https://github.com/github_username/repo_name/issues) for a list of proposed features (and known issues).
 
 
 
@@ -158,41 +145,30 @@ Contributions are what make the open source community such an amazing place to b
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 
 
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email
-
-Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
-
-
-
-<!-- ACKNOWLEDGEMENTS -->
-## Acknowledgements
-
-* []()
-* []()
-* []()
-
-
+Email: raphaelparisdi@gmail.com
+Project Link: [https://github.com/github_username/repo_name](https://github.com/Paristha/HaikuReporter)
 
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/paristha/HaikuReporter.svg?style=for-the-badge
-[contributors-url]: https://github.com/paristha/HaikuReporter/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/paristha/HaikuReporter.svg?style=for-the-badge
-[forks-url]: https://github.com/paristha/HaikuReporter/network/members
-[stars-shield]: https://img.shields.io/github/stars/paristha/HaikuReporter.svg?style=for-the-badge
-[stars-url]: https://github.com/paristha/HaikuReporter/stargazers
-[issues-shield]: https://img.shields.io/github/issues/paristha/HaikuReporter.svg?style=for-the-badge
-[issues-url]: https://github.com/paristha/HaikuReporter/issues
-[license-shield]: https://img.shields.io/github/license/paristha/HaikuReporter.svg?style=for-the-badge
-[license-url]: https://github.com/paristha/HaikuReporter/blob/master/LICENSE.txt
+[contributors-shield]: https://img.shields.io/github/contributors/Paristha/HaikuReporter.svg?style=for-the-badge
+[contributors-url]: https://github.com/Paristha/HaikuReporter/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/Paristha/HaikuReporter.svg?style=for-the-badge
+[forks-url]: https://github.com/Paristha/HaikuReporter/network/members
+[stars-shield]: https://img.shields.io/github/stars/Paristha/HaikuReporter.svg?style=for-the-badge
+[stars-url]: https://github.com/Paristha/HaikuReporter/stargazers
+[issues-shield]: https://img.shields.io/github/issues/Paristha/HaikuReporter.svg?style=for-the-badge
+[issues-url]: https://github.com/Paristha/HaikuReporter/issues
+[license-shield]: https://img.shields.io/github/license/Paristha/HaikuReporter.svg?style=for-the-badge
+[license-url]: https://github.com/Paristha/HaikuReporter/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/thanaparis
+[linkedin-url]: https://linkedin.com/in/thanaParis
+[product-screenshot]: https://github.com/Paristha/HaikuReporter/images/screenshot.png
