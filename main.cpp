@@ -36,12 +36,14 @@ bool makeRule(std::string value_text, std::string tag_text = "")
 		if (r.status_code != 201)
 			error += "HTTP Error Code: " + std::to_string(r.status_code);
 
-		throw error;
+		std::cerr << error << std::endl;
 		return false;
 	}
 
 	for (const auto& rule : item["data"]) {
-		RULE_IDS.push_back(rule["id"].dump());
+		std::string rule_id = rule["id"].dump();
+		std::cout << "Rule successfully created with id " + rule_id << std::endl;
+		RULE_IDS.push_back(rule_id);
 	}
 
 	return true;
@@ -54,15 +56,18 @@ bool getRuleIDs() {
 	nlohmann::json item = nlohmann::json::parse(r.text);
 
 	if (r.status_code != 200) {
-		std::string error = "HTTP Error Code: " + std::to_string(r.status_code);
-		throw error;
+		std::cerr << "HTTP Error Code: " + std::to_string(r.status_code) << std::endl;
 		return false;
 	}
 
+	std::cout << "Success! Rule IDs: ";
 	std::vector<std::string> new_rule_ids;
 	for (const auto& rule : item["data"]) {
-		new_rule_ids.push_back(rule["id"].dump());
+		std::string rule_id = rule["id"].dump();
+		std::cout << rule_id << ", ";
+		new_rule_ids.push_back(rule_id);
 	}
+	std::cout << std::endl;
 	RULE_IDS = new_rule_ids;
 
 	return true;
@@ -112,7 +117,6 @@ bool deleteRules(std::vector<std::string> ids2delete) {
 			std::cerr << "HTTP Error Code: " + std::to_string(r.status_code) << std::endl;
 		return false;
 	}
-
 }
 
 int main()
