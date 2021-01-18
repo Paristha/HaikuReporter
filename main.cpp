@@ -129,7 +129,7 @@ int main()
 		return 1;
 	if (!deleteRules(RULE_IDS))
 		return 1;
-
+	
 	//std::cout << "Rules Added:" << r1.text << std::endl;
 
 	//cpr::Response r2 = cpr::Get(cpr::Url{ "https://api.twitter.com/2/tweets/search/stream" },
