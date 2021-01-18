@@ -71,17 +71,18 @@ bool getRuleIDs() {
 bool deleteRules(std::vector<std::string> ids2delete) {
 	if (ids2delete.empty())
 		return true;
-	std::string json_body = R"({ "delete": { "ids": [")";
+	int num_rules2delete = ids2delete.size();
+	std::string json_body = R"({ "delete": { "ids": [)";
 	json_body += ids2delete.back();
 	ids2delete.pop_back();
 	if (!ids2delete.empty()) {
 		for (std::vector<std::string>::const_iterator i = ids2delete.begin(); i != ids2delete.end(); ++i) {
-			json_body += R"(", ")";
+			json_body += ", ";
 			json_body += *i;
 		}
 	}
-	json_body += R"("] } }")";
-
+	json_body += "] } }";
+	std::cout << json_body << std::endl;
 	cpr::Response r = cpr::Post(cpr::Url{ "https://api.twitter.com/2/tweets/search/stream/rules" },
 		cpr::Payload{ {"dry_run", "false"} },
 		cpr::Header{ { "Content-Type", "application/json" },
@@ -90,45 +91,58 @@ bool deleteRules(std::vector<std::string> ids2delete) {
 
 	nlohmann::json item = nlohmann::json::parse(r.text);
 
-	if (r.status_code != 200) {
-		std::string error = "HTTP Error Code: " + std::to_string(r.status_code);
-		throw error;
+	int num_rules_deleted = 0;
+	try {
+		num_rules_deleted = item["meta"]["summary"]["deleted"];
+	}
+	catch (nlohmann::json::exception exc) {
+		std::cerr << exc.what() << std::endl;
+		if (r.status_code != 200)
+			std::cerr << "HTTP Error Code: " + std::to_string(r.status_code) << std::endl;
 		return false;
 	}
 
+	if (num_rules2delete == num_rules_deleted) {
+		std::cout << item["meta"]["summary"]["deleted"].dump() + " rules successfully deleted" << std::endl;
+		return true;
+	}
+	else {
+		std::cout << num_rules2delete - num_rules_deleted << " rules  not deleted" << std::endl;
+		if (r.status_code != 200) 
+			std::cerr << "HTTP Error Code: " + std::to_string(r.status_code) << std::endl;
+		return false;
+	}
 
-	std::cout << "Rules Deleted:" << r.text << std::endl;
-	return true;
 }
 
 int main()
 {
-	//try {
-	//	std::string rule = "#breakingnews lang:en -died -death -deaths -kill -killed -killing -killings -shooting -shootings -shot -stabbing -stabbed -fatalities -burned -crash -crashed -rape -raped -sexual -casualties -assault -assaulted -is:retweet";
-	//	std::string tag = "english, non-retweet breaking news without dangerous words";
-	//	makeRule(rule, tag);
-	//	//for (std::vector<std::string>::const_iterator i = RULE_IDS.begin(); i != RULE_IDS.end(); ++i)
-	//	//	std::cout << *i << ' ';
-	//} catch (std::string error) {
-	//	std::cout << error << std::endl;
-	//	std::cout << "\nError ids: ";
-	//	for (std::vector<std::string>::const_iterator i = RULE_IDS.begin(); i != RULE_IDS.end(); ++i)
-	//		std::cout << *i << ", ";
-	//	std::cout << std::endl;
-	//}
+	try {
+		std::string rule = "#breakingnews lang:en -died -death -deaths -kill -killed -killing -killings -shooting -shootings -shot -stabbing -stabbed -fatalities -burned -crash -crashed -rape -raped -sexual -casualties -assault -assaulted -is:retweet";
+		std::string tag = "english, non-retweet breaking news without dangerous words";
+		makeRule(rule, tag);
+		//for (std::vector<std::string>::const_iterator i = RULE_IDS.begin(); i != RULE_IDS.end(); ++i)
+		//	std::cout << *i << ' ';
+	} catch (std::string error) {
+		std::cout << error << std::endl;
+		std::cout << "\nError ids: ";
+		for (std::vector<std::string>::const_iterator i = RULE_IDS.begin(); i != RULE_IDS.end(); ++i)
+			std::cout << *i << ", ";
+		std::cout << std::endl;
+	}
 
-	//try {
-	//	bool func_success = getRuleIDs();
-	//	if (func_success) {
-	//		std::cout << "Success! Rule IDs: ";
-	//		for (std::vector<std::string>::const_iterator i = RULE_IDS.begin(); i != RULE_IDS.end(); ++i)
-	//			std::cout << *i << ", ";
-	//		std::cout << std::endl;
-	//	}
-	//}
-	//catch (std::string error) {
-	//	std::cout << error << std::endl;
-	//}
+	try {
+		bool func_success = getRuleIDs();
+		if (func_success) {
+			std::cout << "Success! Rule IDs: ";
+			for (std::vector<std::string>::const_iterator i = RULE_IDS.begin(); i != RULE_IDS.end(); ++i)
+				std::cout << *i << ", ";
+			std::cout << std::endl;
+		}
+	}
+	catch (std::string error) {
+		std::cout << error << std::endl;
+	}
 
 	try {
 		bool func_success = deleteRules(RULE_IDS);
