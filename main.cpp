@@ -53,7 +53,7 @@ bool getRuleIDs() {
 
 	nlohmann::json item = nlohmann::json::parse(r.text);
 
-	if (r.status_code != 201) {
+	if (r.status_code != 200) {
 		std::string error = "HTTP Error Code: " + std::to_string(r.status_code);
 		throw error;
 		return false;
@@ -87,8 +87,10 @@ int main()
 	try {
 		bool func_success = getRuleIDs();
 		if (func_success) {
+			std::cout << "Success! Rule IDs: ";
 			for (std::vector<std::string>::const_iterator i = RULE_IDS.begin(); i != RULE_IDS.end(); ++i)
-				std::cout << *i << ' ';
+				std::cout << *i << ", ";
+			std::cout << std::endl;
 		}
 	}
 	catch (std::string error) {
