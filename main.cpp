@@ -151,25 +151,33 @@ void streamTweets(std::ofstream& output_file, int timeout = 10000) {
 	cpr::Response r2 = cpr::Get(cpr::Url{ "https://api.twitter.com/2/tweets/search/stream" },
 		cpr::Header{ { "Authorization", "Bearer " + BEARER_TOKEN } },
 		cpr::WriteCallback([&](std::string data) -> bool {
-			output_file << "START\n" + data + "\nEND\n";
-			return TRUE;
+			std::cout << "Here is the data:\n" + data + "\nEND\n";
+			nlohmann::json item;
+			try {
+				item = nlohmann::json::parse(data);
+			}
+			catch (nlohmann::json::exception exc) {
+				; // Do nothing; stream pushes empty lines to stay open
+			}
+			output_file << "START\n" + item["data"]["text"].dump() + "\nEND\n";
+			return true;
 		}),
 		cpr::Timeout{timeout});
 }
 
 int main()
 {
-	std::string rule = "(#breakingnews OR #news OR #localnews OR #breaking OR from:BreakingNews) lang:en -died -death -deaths -kill -killed -killing -killings -shooting -shootings -shot -stabbing -stabbed -fatalities -burned -crash -crashed -rape -raped -sexual -casualties -assault -assaulted -is:retweet";
-	std::string tag = "english, non-retweet breaking news without dangerous words";
+	std::string rule = "(#breakingnews OR #news OR #localnews OR #breaking OR from:BreakingNews OR from:BBCBreaking OR from:cnnbrk OR from:WSJbreakingnews OR from:Reuters OR from:CBSTopNews OR from:AJELive OR from:SkyNewsBreak OR from:ABCNewsLive OR from:TWCBreaking) lang:en -is:retweet";
+	std::string tag = "news in english";
 	if (!makeRule(rule, tag))
 		return 1;
 	if (!getRuleIDs())
 		return 1;
-	//std::ofstream output_file;
-	//output_file.open("tweets.txt");
-	//int timeout = 300000;
-	//streamTweets(output_file, timeout);
-	//output_file.close();
+	std::ofstream output_file;
+	output_file.open("tweets.txt");
+	int timeout = 900000;
+	streamTweets(output_file, timeout);
+	output_file.close();
 	if (!deleteRules(RULE_IDS))
 		return 1;
 
