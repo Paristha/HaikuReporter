@@ -93,7 +93,8 @@ To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
 
-
+Git
+CMake
 
 ### Installation
 
@@ -103,7 +104,7 @@ To get a local copy up and running follow these simple steps.
    ```
 2. CMake
    ```sh
-
+   cmake --build HaikuReporter
    ```
 
 
@@ -113,13 +114,14 @@ To get a local copy up and running follow these simple steps.
 
 Haiku Reporter makes use of Twitter's Dev APIs to filter a stream of new news tweets, searching for tweets that could be formatted to meet the 5-7-5 syllable requirement of the lines of a 'Haiku' poem.
 
-It is currently under construction! Current functionality includes: using [cpr](https://github.com/whoshuu/cpr) to create and delete rules for Twitter's (filtered stream API)[https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/introduction]. Integration with a python module that makes use of the (nltk API)[https://www.nltk.org/] to recognize haikus.
+It is currently under construction! Current functionality includes: using [cpr](https://github.com/whoshuu/cpr) to create and delete rules for Twitter's [filtered stream API](https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/introduction). Integration with a python module that makes use of the [nltk API](https://www.nltk.org/) to recognize haikus.
 
 
 <!-- ROADMAP -->
 ## Roadmap
 
 -Complete integration with python HaikuRecognizer module
+
 -Add ability to post recognized Haikus with bot twitter account
 
 Feel free to email me suggestions!
