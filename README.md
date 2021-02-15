@@ -55,39 +55,28 @@
 
 
 <!-- TABLE OF CONTENTS -->
-<details open="open">
-  <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ol>
-</details>
+## Table of Contents
+
+* [About the Project](#about-the-project)
+  * [Built With](#built-with)
+* [Getting Started](#getting-started)
+  * [Prerequisites](#prerequisites)
+  * [Installation](#installation)
+* [Usage](#usage)
+* [Roadmap](#roadmap)
+* [Contributing](#contributing)
+* [License](#license)
+* [Contact](#contact)
+<!-- * [Acknowledgements](#acknowledgements) -->
 
 
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+<!-- [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
 
-Here's a blank template to get started:
-**To avoid retyping too much info. Do a search and replace with your text editor for the following:**
-`github_username`, `repo_name`, `twitter_handle`, `email`, `project_title`, `project_description`
+A fun twitter bot reporting all the news fit to Haiku.
 
 
 ### Built With
@@ -104,17 +93,13 @@ To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+
 
 ### Installation
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/github_username/repo_name.git
+   git clone https://github.com/Paristha/HaikuReporter.git
    ```
 2. CMake
    ```sh
@@ -126,6 +111,20 @@ This is an example of how to list things you need to use the software and how to
 <!-- USAGE EXAMPLES -->
 ## Usage
 
+Haiku Reporter makes use of Twitter's Dev APIs to filter a stream of new news tweets, searching for tweets that could be formatted to meet the 5-7-5 syllable requirement of the lines of a 'Haiku' poem.
+
+It is currently under construction! Current functionality includes: using [cpr](https://github.com/whoshuu/cpr) to create and delete rules for Twitter's (filtered stream API)[https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/introduction]. Integration with a python module that makes use of the (nltk API)[https://www.nltk.org/] to recognize haikus.
+
+
+<!-- ROADMAP -->
+## Roadmap
+
+-Complete integration with python HaikuRecognizer module
+-Add ability to post recognized Haikus with bot twitter account
+
+Feel free to email me suggestions!
+
+See the [open issues](https://github.com/Paristha/HaikuReporter/issues) for a list of proposed features (and known issues).
 
 
 
@@ -145,7 +144,7 @@ Contributions are what make the open source community such an amazing place to b
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Distributed under the MIT License. See `LICENSE` for more information.
 
 
 
@@ -171,4 +170,4 @@ Project Link: [https://github.com/github_username/repo_name](https://github.com/
 [license-url]: https://github.com/Paristha/HaikuReporter/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/thanaParis
-[product-screenshot]: https://github.com/Paristha/HaikuReporter/images/screenshot.png
+<!-- [product-screenshot]: https://github.com/Paristha/HaikuReporter/images/screenshot.png -->

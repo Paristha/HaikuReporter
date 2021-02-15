@@ -3,7 +3,11 @@
 #include <iostream>
 #include <nlohmann/json.hpp>
 #include <vector>
+#include <pybind11/embed.h>
+using namespace pybind11::literals;
 
+
+std::string PY_MODULE_PATH = "C:\\Users\\rapha\\PycharmProjects\\HaikuRecognizer";
 std::string BEARER_TOKEN = "AAAAAAAAAAAAAAAAAAAAAKNhLAEAAAAAzItOgprPgVhFZIc6JjgD74tIu34%3D4OlxvtQhLZ9p2E5kblp79f6rOOx33L0SZivMJm8prJpTvh5qRC";
 std::vector<std::string> RULE_IDS;
 
@@ -159,53 +163,40 @@ void streamTweets(std::ofstream& output_file, int timeout = 10000) {
 			catch (nlohmann::json::exception exc) {
 				; // Do nothing; stream pushes empty lines to stay open
 			}
+			std::string text = item["data"]["text"].dump();
 			output_file << "START\n" + item["data"]["text"].dump() + "\nEND\n";
 			return true;
 		}),
 		cpr::Timeout{timeout});
 }
 
+
 int main()
 {
+	std::cout << "WHAT\n";
+	pybind11::object append_to_path = pybind11::module_::import("sys").attr("path").attr("append");
+	std::cout << "WHAT3\n";
+	append_to_path(PY_MODULE_PATH);
+	std::cout << "WHAT4\n";
+	pybind11::object is_haiku = pybind11::module_::import("HaikuRecognizer").attr("haiku");
+
+	std::string &answer = is_haiku("no").cast<std::string>();
+
+	std::cout << answer + "\nEND\n";
+
 	std::string rule = "(#breakingnews OR #news OR #localnews OR #breaking OR from:BreakingNews OR from:BBCBreaking OR from:cnnbrk OR from:WSJbreakingnews OR from:Reuters OR from:CBSTopNews OR from:AJELive OR from:SkyNewsBreak OR from:ABCNewsLive OR from:TWCBreaking) lang:en -is:retweet";
 	std::string tag = "news in english";
 	if (!makeRule(rule, tag))
 		return 1;
 	if (!getRuleIDs())
 		return 1;
-	std::ofstream output_file;
-	output_file.open("tweets.txt");
-	int timeout = 900000;
-	streamTweets(output_file, timeout);
-	output_file.close();
+	//std::ofstream output_file;
+	//output_file.open("tweets.txt");
+	//int timeout = 900000;
+	//streamTweets(output_file, timeout);
+	//output_file.close();
 	if (!deleteRules(RULE_IDS))
 		return 1;
-
-	//std::cout << "Rules Added:" << r1.text << std::endl;
-
-	//cpr::Response r2 = cpr::Get(cpr::Url{ "https://api.twitter.com/2/tweets/search/stream" },
-	//	cpr::Header{ { "Authorization", "Bearer " + BEARER_TOKEN } },
-	//	cpr::Timeout{5000});
-
-	//std::ofstream fileEndpoint;
-	//fileEndpoint.open("tweets.txt");
-	//fileEndpoint << "Tweets Returned:" << r2.text;
-	//fileEndpoint.close();
-
-	//std::cout << "Code:" << r2.status_code << std::endl;
-
-	//std::cout << "Tweets:" << r2.text << std::endl;
-
-	//std::cout << "Bytes:" << r2.downloaded_bytes << std::endl;
-
-	//auto future_text = cpr::GetCallback([](cpr::Response r) {
-	//	return r.text;
-	//	}, cpr::Url{ "https://api.twitter.com/2/tweets/search/stream" },
-	//		cpr::Header{ { "Authorization", "Bearer " + BEARER_TOKEN } });
-	//// Sometime later
-	//if (future_text.wait_for(std::chrono::seconds(1000)) == std::future_status::ready) {
-	//	std::cout << future_text.get() << std::endl;
-	//};
 
 	return 0;
 }
