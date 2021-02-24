@@ -4,7 +4,8 @@
 #include <nlohmann/json.hpp>
 #include <vector>
 #include <pybind11/embed.h>
-using namespace pybind11::literals;
+namespace py = pybind11;
+using namespace py::literals;
 
 
 std::string PY_MODULE_PATH = "C:\\Users\\rapha\\PycharmProjects\\HaikuRecognizer";
@@ -174,15 +175,34 @@ void streamTweets(std::ofstream& output_file, int timeout = 10000) {
 int main()
 {
 	std::cout << "WHAT\n";
-	pybind11::object append_to_path = pybind11::module_::import("sys").attr("path").attr("append");
+	py::scoped_interpreter python;
+
+	auto math = py::module::import("math");
+	double root_two = math.attr("sqrt")(2.0).cast<double>();
+
+	std::cout << "The square root of 2 is: " << root_two << "\n";
+	py::object path = py::module_::import("sys").attr("path");
+	py::print(path);
 	std::cout << "WHAT3\n";
-	append_to_path(PY_MODULE_PATH);
+	path.attr("append")(PY_MODULE_PATH);
 	std::cout << "WHAT4\n";
-	pybind11::object is_haiku = pybind11::module_::import("HaikuRecognizer").attr("haiku");
+	py::object is_haiku = py::module_::import("HaikuRecognizer").attr("haiku");
+	std::cout << "WHAT5\n";
+	std::string answer = is_haiku("no").cast<std::string>();
+	if (answer.empty()) {
+		std::cout << "Not a Haiku\n";;
+	}
+	else {
+		std::cout << answer + "\nEND\n";
+	}
+	std::string answer2 = is_haiku("a b c d e f g h i j k l m n o p q").cast<std::string>();
+	if (answer2.empty()) {
+		std::cout << "Not a Haiku\n";;
+	}
+	else {
+		std::cout << answer2 + "\nEND\n";
+	}
 
-	std::string &answer = is_haiku("no").cast<std::string>();
-
-	std::cout << answer + "\nEND\n";
 
 	std::string rule = "(#breakingnews OR #news OR #localnews OR #breaking OR from:BreakingNews OR from:BBCBreaking OR from:cnnbrk OR from:WSJbreakingnews OR from:Reuters OR from:CBSTopNews OR from:AJELive OR from:SkyNewsBreak OR from:ABCNewsLive OR from:TWCBreaking) lang:en -is:retweet";
 	std::string tag = "news in english";

@@ -14,6 +14,8 @@ project(HaikuReporter)
 #
 cmake_minimum_required (VERSION 3.11)
 
+find_package(Python COMPONENTS Interpreter Development REQUIRED)
+
 include(FetchContent)
 
 FetchContent_Declare(pybind11 GIT_REPOSITORY https://github.com/pybind/pybind11 )
